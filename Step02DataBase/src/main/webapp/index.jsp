@@ -29,6 +29,8 @@
 			<li><a href="${pageContext.request.contextPath }/member/list.jsp">회원목록</a></li>
 			<li><a href="/Step02Practice/book/list.jsp">책목록</a></li>
 			<li><a href="${pageContext.request.contextPath }/user/signup_form.jsp">회원가입</a></li>
+			<li><a href="${pageContext.request.contextPath }/user/loginform.jsp">로그인</a></li>
+			<li><a href="${pageContext.request.contextPath }/user/logout.jsp">로그아웃</a></li>
 		</ul>
 		<div id="carouselExampleIndicators" class="carousel slide">
 		  <div class="carousel-indicators">

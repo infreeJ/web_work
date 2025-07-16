@@ -30,7 +30,7 @@
 	// 세션 객체에 담긴 로그인 정보를 삭제하는 것이 '로그아웃'
 	
 	if(isValid) {
-		// HttpSession 객체에 "userName" 이라는 키값으로 저장된 userName을 저장한다.
+		// HttpSession 객체에 "userName" 이라는 키값으로 userName을 저장한다.
 		session.setAttribute("userName", userName);
 		// 세션 유지시간 설정(초단위)
 		session.setMaxInactiveInterval(60*10); // default 30분
