@@ -22,12 +22,12 @@
 	<div class="container">
 	<%
 	if(userName != null) {%>
-		<strong><%=userName %></strong>님 로그인 중..
+		<a href="${pageContext.request.contextPath}/user/info.jsp"><%=userName %></a>님 로그인 중..
 	<%}%>
 		<h1>인덱스 페이지 입니다</h1>
 		<ul>
 			<li><a href="${pageContext.request.contextPath }/member/list.jsp">회원목록</a></li>
-			<li><a href="/Step02Practice/book/list.jsp">책목록</a></li>
+			<li><a href="${pageContext.request.contextPath }/book/list.jsp">책목록</a></li>
 			<li><a href="${pageContext.request.contextPath }/user/signup_form.jsp">회원가입</a></li>
 			<li><a href="${pageContext.request.contextPath }/user/loginform.jsp">로그인</a></li>
 			<li><a href="${pageContext.request.contextPath }/user/logout.jsp">로그아웃</a></li>

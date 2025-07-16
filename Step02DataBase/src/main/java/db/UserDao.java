@@ -5,6 +5,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDao {
+	
+	// 비밀번호 수정 반영하는 메서드
+	public boolean updatePassword(UserDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					UPDATE users
+					SET password = ?, UPDATEDAT = SYSDATE
+					WHERE userName = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getPassword());
+			pstmt.setString(2, dto.getUserName());
+			
+			rowCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	public boolean insert(UserDto dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -64,7 +102,7 @@ public class UserDao {
 				dto.setUserName(userName);
 				dto.setPassword(rs.getString("password"));
 				dto.setEmail(rs.getString("email"));
-				dto.setProfileImage(rs.getString("profileImge"));
+				dto.setProfileImage(rs.getString("profileImage"));
 				dto.setRole(rs.getString("role"));
 				dto.setUpdatedAt(rs.getString("updatedAt"));
 				dto.setCreatedAt(rs.getString("createdAt"));
