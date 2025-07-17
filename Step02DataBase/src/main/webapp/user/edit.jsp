@@ -7,7 +7,6 @@
 <%
 	String userName = (String)session.getAttribute("userName");
 
-	
 	UserDto dto = UserDao.getInstance().getByUserName(userName);
 
 %>
