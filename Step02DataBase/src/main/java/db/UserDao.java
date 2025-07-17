@@ -6,6 +6,79 @@ import java.sql.ResultSet;
 
 public class UserDao {
 	
+	// 이메일과 프로필을 수정하는 메서드
+	public boolean updateEmailProfile(UserDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					UPDATE users
+					SET email=?, profileImage=?, updatedAt=SYSDATE
+					WHERE userName = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getEmail());
+			pstmt.setString(2, dto.getProfileImage());
+			pstmt.setString(3, dto.getUserName());
+			
+			rowCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// 이메일을 수정하는 메서드
+	public boolean updateEmail(UserDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					UPDATE users
+					SET email=?, updatedAt=SYSDATE
+					WHERE userName = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getEmail());
+			pstmt.setString(2, dto.getUserName());
+			
+			rowCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// 비밀번호 수정 반영하는 메서드
 	public boolean updatePassword(UserDto dto) {
 		Connection conn = null;

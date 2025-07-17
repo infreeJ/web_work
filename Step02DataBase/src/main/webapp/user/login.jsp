@@ -39,7 +39,7 @@
 		// HttpSession 객체에 "userName" 이라는 키값으로 userName을 저장한다.
 		session.setAttribute("userName", userName);
 		// 세션 유지시간 설정(초단위)
-		session.setMaxInactiveInterval(60*10); // default 30분
+		session.setMaxInactiveInterval(60*60); // default 30분
 	}
 	
 %>
