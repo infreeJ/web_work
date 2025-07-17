@@ -11,7 +11,7 @@
 	
 	// 2. 세션에 저장된 userName을 이용해서 가입정보를 DB에서 불러온다
 	String userName = (String)session.getAttribute("userName");
-	UserDto dto = new UserDao().getByUserName(userName);
+	UserDto dto = UserDao.getInstance().getByUserName(userName);
 	
 	// 3. 기존 비밀번호와 DB에 저장된 비밀번호가 일치하는지 확인해서
 	boolean isValid = BCrypt.checkpw(password, dto.getPassword());
@@ -23,7 +23,7 @@
 		// dto에 담고
 		dto.setPassword(encodedPwd);
 		// DB에 수정반영
-		new UserDao().updatePassword(dto);
+		UserDao.getInstance().updatePassword(dto);
 		
 		// 로그아웃
 		session.removeAttribute("userName");

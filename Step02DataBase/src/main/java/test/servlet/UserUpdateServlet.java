@@ -52,7 +52,7 @@ public class UserUpdateServlet extends HttpServlet {
 		// 파일 데이터 <input type="file" name="profileImage">
 		Part filePart = req.getPart("profileImage");
 		// DB 에서 사용자 정보를 불러온다
-		UserDto dto = new UserDao().getByUserName(userName);
+		UserDto dto = UserDao.getInstance().getByUserName(userName);
 		
 		// 만일 업로드된 프로필 이미지가 있다면
 		if(filePart != null && filePart.getSize() > 0) {
@@ -69,19 +69,30 @@ public class UserUpdateServlet extends HttpServlet {
 			 * 업로드된 파일은 임시 폴더에 임시 파일로 저장이 된다.
 			 * 해당 파일에서 byte 알갱이를 읽을 수 있는 InputStream 객체를 얻어내서
 			 */
+			
 			InputStream is = filePart.getInputStream();
 			// 원하는 위지에 copy해야한다.
 			Files.copy(is, Paths.get(filePath));
+			
+			// 기존에 이미 저장된 프로필 사진이 있으면 파일시스템에서 삭제하기
+			if(dto.getProfileImage() != null) {
+				// 삭제할 파일의 전체 경로
+				String deleteFilePath = fileLocation + "/" + dto.getProfileImage();
+				// Files 클래스의 delete() 메서드를 이용해서 삭제하기
+				Files.delete(Paths.get(deleteFilePath));
+			}
 			
 			// dto에 이메일과 저장된 파일명을 담는다.
 			dto.setEmail(email);
 			dto.setProfileImage(saveFileName);
 			// dao의 email과 profile을 수정하는 메서드를 이용하여 수정 반영
-			
+			UserDao.getInstance().updateEmailProfile(dto);
 		} else { // 업로드된 프로필 이미지가 없으면 (이메일만 수정)
 			// dto에 이메일만 담는다.
 			dto.setEmail(email);
 			// dao의 email만 수정하는 메서드를 이용하여 수정 반영
+			UserDao.getInstance().updateEmail(dto);
+			
 		}
 		
 		String cPath = req.getContextPath();

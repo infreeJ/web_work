@@ -18,7 +18,7 @@
 	
 	boolean isValid = false;
 	// DB에서 userName을 이용해서 select 되는 정보가 있는지 select 해본다.
-	UserDto dto = new UserDao().getByUserName(userName);
+	UserDto dto = UserDao.getInstance().getByUserName(userName);
 	
 	// select된 정보가 있다면(userName이 존재한다는 것)
 	if(dto != null) {

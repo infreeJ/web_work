@@ -4,7 +4,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
+
 public class UserDao {
+	
+	private static UserDao dao;
+	
+	// static 초기화 블럭 (클래스가 최초로 사용될 때 한번 실행되는 블럭
+	static {
+		// static 초기화 작업을 여기서 한다 (UserDao 객체를 생성해서 static 필드에 담는다)
+		dao = new UserDao();
+	}
+	
+	// 외부에서 UserDao 객체를 생성하지 못하도록 생성자를 private로 막는다.
+	private UserDao () {}
+	
+	// UserDao 객체의 참조값을 리턴해주는 public static 메서드
+	public static UserDao getInstance() {
+		// static 필드에 저장된 dao의 참조값을 리턴
+		return dao;
+	}
 	
 	// 이메일과 프로필을 수정하는 메서드
 	public boolean updateEmailProfile(UserDto dto) {

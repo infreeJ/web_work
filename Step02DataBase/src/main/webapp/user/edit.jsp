@@ -6,7 +6,9 @@
     
 <%
 	String userName = (String)session.getAttribute("userName");
-	UserDto dto = new UserDao().getByUserName(userName);
+
+	
+	UserDto dto = UserDao.getInstance().getByUserName(userName);
 
 %>
 <!DOCTYPE html>
@@ -40,7 +42,9 @@
 						<%if(dto.getProfileImage() == null) {%>
 							<i style="font-size:100px;" class="bi bi-person-circle"></i>
 						<%} else { %>
-							<img src="">
+						<% %>
+							<img src="${pageContext.request.contextPath}/upload/<%=dto.getProfileImage() %>" 
+							style="width:100px; height:100px; border-radius:50%;"/>
 						<%} %>
 					</a>
 				</div>

@@ -22,7 +22,7 @@
 	dto.setEmail(email);
 	
 	// 응답
-	boolean isSuccess = new UserDao().insert(dto);
+	boolean isSuccess = UserDao.getInstance().insert(dto);
 	
 	
 %>
