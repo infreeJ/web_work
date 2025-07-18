@@ -6,7 +6,7 @@ public class BoardDto {
 	private String title;
 	private String content;
 	private int viewCount;
-	
+	private String createdAt;
 	public int getNum() {
 		return num;
 	}
@@ -43,5 +43,4 @@ public class BoardDto {
 	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
-	private String createdAt;
 }
