@@ -14,6 +14,11 @@
 	
 	// 로그인된 userName
 	String userName = (String)session.getAttribute("userName");
+	
+	// 자신의 글이 아니라면 조회수 1 증가
+	if(!dto.getWriter().equals(userName)) {
+		BoardDao.getInstance().addViewCount(num);
+	}
 %>
 
 <!DOCTYPE html>
@@ -45,7 +50,14 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><%=dto.getWriter() %></td>
+				<td>
+				<%if (dto.getProfileImage() == null) {%>
+					<i style="font-size:100px;" class="bi bi-person-circle"></i>
+				<%} else {%>
+					<img src="${pageContext.request.contextPath}/upload/<%=dto.getProfileImage() %>" 
+					style="width:100px; height:100px; border-radius:50%;"/>
+				<%} %>
+				<%=dto.getWriter() %></td>
 			</tr>
 			<tr>
 				<th>제목</th>
@@ -54,6 +66,10 @@
 			<tr>
 				<th>조회수</th>
 				<td><%=dto.getViewCount() %></td>
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td><%=dto.getCreatedAt() %></td>
 			</tr>
 		</table>
 		

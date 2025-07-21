@@ -22,7 +22,7 @@
 	final int PAGE_ROW_COUNT = 5;
 	
 	// 하단 페이지를 몇 개씩 표시할 것인지
-	final int PAGE_DISPLAY_COUNT = 3;
+	final int PAGE_DISPLAY_COUNT = 5;
 	
 	// 보여줄 페이지의 시작 ROWNUM
 	int startRowNum = 1+(pageNum-1) * PAGE_ROW_COUNT;
@@ -51,14 +51,34 @@
 	// 해당 row만 select
 	List<BoardDto> list = BoardDao.getInstance().selectPage(dto);
 	
-	
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/board/list.jsp</title>
+<title>/board/list2.jsp</title>
+
+<style>
+	ul a{
+		text-decoration: none;
+	}
+
+	.active{
+		font-weight: bold;
+		color: red;
+		text-decoration: underline;
+	}
+	
+	ul.my-pagination{
+		list-style-type: none;
+		padding-left: 0;
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+	}
+	
+</style>
 
 <jsp:include page="/WEB-INF/include/resource.jsp"></jsp:include>
 
@@ -93,25 +113,25 @@
 				<%}%>
 			</tbody>
 		</table>
-		<ul class="pagination">
-			<li class="page-item">
+		<ul class="my-pagination">
+			<li>
 				<%if(startPageNum != 1) {%>
-					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1%>">&lsaquo;</a>
+					<a href="list.jsp?pageNum=<%=startPageNum-1%>">&lsaquo;</a>
 				<%} %>
 				
 			</li>
-			
-			<%for(int i=startPageNum; i <= endPageNum; i++) {%>
-				<li class="page-item">
+			<%
+			for(int i=startPageNum; i <= endPageNum; i++) {%>
+				<li>
 					
-					<a class="page-link <%=i==pageNum ? "active" : "" %>" href="list.jsp?pageNum=<%=i%>"><%=i%></a>
+					<a class="<%= i==pageNum ? "active" : "" %>" href="list.jsp?pageNum=<%=i%>"><%=i%></a>
 				</li>
 			<%}%>
-			
-			<li class="page-item">
+			<li>
 				<%if(endPageNum != totalPageCount) {%>
-					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1%>">&rsaquo;</a>
-				<%}%>
+					<a href="list.jsp?pageNum=<%=endPageNum+1%>">&rsaquo;</a>
+				<%} %>
+				
 			</li>
 		</ul>
 	</div>
