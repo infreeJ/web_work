@@ -28,6 +28,7 @@
 <title>/board/detail.jsp</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
 	<div class="container pt-3">
@@ -39,6 +40,21 @@
 		  </ol>
 		</nav>
 		<h1>게시글 상세 보기</h1>
+		
+		<div class="btn-group mb-2">
+			<a class="btn btn-outline-secondary btn-sm <%=dto.getPrevNum() == 0 ? "disabled" : "" %>"
+			href="view.jsp?num=<%=dto.getPrevNum()%>">
+				<i class="bi bi-arrow-left"></i>
+				Prev
+			</a>
+		
+			<a class="btn btn-outline-secondary <%=dto.getNextNum() == 0 ? "disabled" : "" %>"
+			href="view.jsp?num=<%=dto.getNextNum()%>">
+				Next
+				<i class="bi bi-arrow-right"></i>
+			</a>
+		</div>
+		
 		<table class="table table-striped">
 			<colgroup>
 				<col class="col-2" />
@@ -94,6 +110,8 @@
 			</div>
 		<%} %>
 		
+		<div>
+		</div>
 	</div>
 </body>
 </html>
