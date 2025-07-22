@@ -95,6 +95,47 @@ public class BoardDao {
 	}
 	
 	
+	// 검색 키워드에 부합하는 글의 개수를 리턴
+	// Overloading
+	public int getCountByKeyword(String keyword) {
+		int count = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					SELECT MAX(ROWNUM) AS count
+					FROM board
+					WHERE title LIKE '%' || ? || '%' OR content LIKE '%' || ? || '%'
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt("count");
+			}
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	
 	
 	
 	// 특정 Page에 해당하는 row만 select해서 리턴하는 메서드
@@ -118,6 +159,57 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getStartRowNum());
 			pstmt.setInt(2, dto.getEndRowNum());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDto dto2 = new BoardDto();
+				dto2.setNum(rs.getInt("num"));
+				dto2.setWriter(rs.getString("writer"));
+				dto2.setTitle(rs.getString("title"));
+				dto2.setViewCount(rs.getInt("viewCount"));
+				dto2.setCreatedAt(rs.getString("createdAt"));
+				list.add(dto2);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	
+	// 특정 page와 keyword에 해당되는 row만 select해서 리턴하는 메서드
+	// BoardDto 객체에 startRowNum과 endRowNum을 받아서 반환
+	public List<BoardDto> selectPageByKeyword(BoardDto dto) {
+		List<BoardDto> list = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					SELECT *
+					FROM (SELECT result1.*, ROWNUM AS rnum
+							FROM (SELECT num, writer, title, viewCount, createdAt
+									FROM board
+									WHERE title LIKE '%' || ? || '%' OR content LIKE '%' || ? || '%'
+									ORDER BY num DESC) result1)
+					WHERE rnum BETWEEN ? AND ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getKeyword());
+			pstmt.setString(2, dto.getKeyword());
+			pstmt.setInt(3, dto.getStartRowNum());
+			pstmt.setInt(4, dto.getEndRowNum());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
