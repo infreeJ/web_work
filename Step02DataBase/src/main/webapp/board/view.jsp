@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="db.CommentDto"%>
+<%@page import="db.CommentDao"%>
 <%@page import="org.apache.commons.text.StringEscapeUtils"%>
 <%@page import="db.BoardDao"%>
 <%@page import="db.BoardDto"%>
@@ -19,6 +22,9 @@
 	if(!dto.getWriter().equals(userName)) {
 		BoardDao.getInstance().addViewCount(num);
 	}
+	
+	// 댓글 목록을 DB에서 읽어오기
+	List<CommentDto> list = CommentDao.getInstance().selectList(num);
 %>
 
 <!DOCTYPE html>
@@ -110,8 +116,33 @@
 			</div>
 		<%} %>
 		
-		<div>
+		
+		<div class="card my-3">
+  			<div class="card-header bg-primary text-white">
+    			댓글을 입력해 주세요
+  			</div>
+			<div class="card-body">
+				<!-- 원글의 댓글을 작성할 폼 -->
+				<form action="save-comment.jsp" method="post">
+			    	<!-- 숨겨진 입력값 -->
+			    	<input type="hidden" name="parentNum" value="<%=dto.getNum() %>"/>
+			    	<input type="hidden" name="targetWriter" value="<%=dto.getWriter() %>" />
+			
+			    	<div class="mb-3">
+			        	<label for="commentContent" class="form-label">댓글 내용</label>
+			        	<textarea id="commentContent" name="content" rows="5" class="form-control" placeholder="댓글을 입력하세요"></textarea>
+			      	</div>
+			
+			      	<button type="submit" class="btn btn-success">등록</button>
+			    </form>
+			</div>
 		</div>
+		
+		<!-- 댓글 목록 출력하기 -->
+		<div class="comments">
+		
+		</div>
+		
 	</div>
 </body>
 </html>

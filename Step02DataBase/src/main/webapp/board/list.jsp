@@ -30,7 +30,7 @@
 	
 
 	// 한 페이지에 몇개씩 표시할 것인지
-	final int PAGE_ROW_COUNT = 1;
+	final int PAGE_ROW_COUNT = 3;
 	
 	// 하단 페이지를 몇 개씩 표시할 것인지
 	final int PAGE_DISPLAY_COUNT = 3;
