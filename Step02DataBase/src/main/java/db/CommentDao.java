@@ -20,6 +20,78 @@ public class CommentDao {
 	
 	
 	
+	public boolean delete(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					UPDATE comments
+					SET deleted = 'yes'
+					WHERE num = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rowCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public boolean update(CommentDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = """
+					UPDATE comments
+					SET content = ?
+					WHERE num = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getContent());
+			pstmt.setInt(2, dto.getNum());
+			
+			rowCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	
 	public List<CommentDto> selectList(int parentNum) {
 		List<CommentDto> list = new ArrayList<>();
 		Connection conn = null;
@@ -29,10 +101,10 @@ public class CommentDao {
 		try {
 			conn = new DbcpBean().getConn();
 			String sql = """
-					SELECT num, writer, targetWriter, content, deleted, groupNum, createdAt, profileImage
-					FROM comments JOIN users ON commentswriter = users.userName;
+					SELECT comments.num, writer, targetWriter, content, deleted, groupNum, comments.createdAt, profileImage
+					FROM comments JOIN users ON comments.writer = users.userName
 					WHERE parentNum = ?
-					ORDER BY groupNum DESC, num ASC
+					ORDER BY groupNum ASC, num ASC
 					""";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, parentNum);

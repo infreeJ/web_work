@@ -5,10 +5,10 @@
     
 <%
     int parentNum = Integer.parseInt(request.getParameter("parentNum"));
-    	String targetWriter = request.getParameter("targetWriter");
-    	String content = request.getParameter("content");
+    String targetWriter = request.getParameter("targetWriter");
+    String content = request.getParameter("content");
     	
-    	String writer = (String)session.getAttribute("userName");
+    String writer = (String)session.getAttribute("userName");
     	
     	// 저장할 댓글의 댓글 번호를 미리 얻어낸다.
     	int num = CommentDao.getInstance().getSequence();
