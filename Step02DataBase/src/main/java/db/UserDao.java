@@ -25,6 +25,10 @@ public class UserDao {
 		return dao;
 	}
 	
+	
+	
+	
+	
 	// 이메일과 프로필을 수정하는 메서드
 	public boolean updateEmailProfile(UserDto dto) {
 		Connection conn = null;

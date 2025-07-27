@@ -19,6 +19,7 @@
 	<jsp:param name="thisPage" value=""/>
 </jsp:include>
 
+
 	<div class="container">
 	
 		<h1>인덱스 페이지 입니다</h1>
