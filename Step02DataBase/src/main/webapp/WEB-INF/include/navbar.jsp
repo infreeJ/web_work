@@ -1,3 +1,5 @@
+<%@page import="db.UserDao"%>
+<%@page import="db.UserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- /WEB-INF/include/navbar.jsp --%>
@@ -6,6 +8,9 @@
 	String thisPage=request.getParameter("thisPage");// "index" or "member" or "book"
 	//로그인된 userName 이 있는지 읽어와 본다
 	String userName=(String)session.getAttribute("userName");
+	
+	UserDto userDto = UserDao.getInstance().getByUserName(userName);
+	
 %>
 	<nav class="navbar navbar-expand-md bg-success" data-bs-theme="dark">
 		<div class="container">
@@ -39,9 +44,10 @@
 	                </li>
                 <%}else {%>
                 	<li>
-                		<button class="btn btn-primary me-3" type="button" data-bs-toggle="offcanvas"
-                		data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-                		알림 버튼입니다</button>
+                		<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+  						알림버튼
+						</button>
+					</li>
 	                <li class="nav-item  me-2">
 					    <a class="nav-link  p-0"
 					       href="${pageContext.request.contextPath}/user/info.jsp">
@@ -61,13 +67,19 @@
 		</div>
 	</nav>
 	
-		<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">현재 알림 목록</h5>
+    <h5 class="offcanvas-title" id="staticBackdropLabel">알림 목록</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
+    <div>
+      <ul>
+      	<li>
+      		
+      	</li>
+      </ul>
+    </div>
   </div>
 </div>
 
