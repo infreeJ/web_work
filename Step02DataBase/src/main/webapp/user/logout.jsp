@@ -3,7 +3,9 @@
     
     
 <%
-session.removeAttribute("userName");
+	// session.removeAttribute("userName");
+	// session.removeAttribute("role");
+	session.invalidate(); // 저장된 모든 정보 삭제
 %>
 <!DOCTYPE html>
 <html>

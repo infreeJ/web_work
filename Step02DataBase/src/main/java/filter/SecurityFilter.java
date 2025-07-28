@@ -56,6 +56,9 @@ public class SecurityFilter implements Filter{
 		
 		//로그인 여부 확인
 		String userName=(String)session.getAttribute("userName");
+		// role 정보 얻어오기
+		String role = (String)session.getAttribute("role");
+		
 		//만일 로그인을 하지 않았다면 
 		if(userName == null) {
 			//로그인 페이지로 리다일렉트(새로운 경로로 요청을 다시하라고 응답) 이동 시킨다 
@@ -70,6 +73,13 @@ public class SecurityFilter implements Filter{
 			return; //메소드를 여기서 끝내기
 		}
 		
+		// 권한 체크
+		// 만일 isAuthorized() 메서드가 false를 시턴한다면 (접근 불가능하다고 판정된다면)
+		if(!isAuthorized(path, role)) {
+			// 금지된 요청이라고 응답하고
+			res.sendError(HttpServletResponse.SC_FORBIDDEN, "접근 권한이 없습니다.");
+			return; // 메서드 종료
+		}
 		chain.doFilter(request, response);
 	}
 	
@@ -86,6 +96,23 @@ public class SecurityFilter implements Filter{
             }
         }
         return false;
+    }
+    
+    
+    // 역할 기반 권한 검사
+    private boolean isAuthorized(String path, String role) {
+        if ("ROLE_ADMIN".equals(role)) {
+            return true; // 모든 경로 접근 허용
+            
+        } else if ("ROLE_STAFF".equals(role)) {
+        	// addmin 하위 경로를 제외한 모든 경로 접근 허용
+            return !path.startsWith("/admin/"); 
+            
+        } else if ("ROLE_USER".equals(role)) {
+        	// admin/ 하위와 /staff/ 하위 경로를 제외한 모든 경로 접근 허용
+            return !path.startsWith("/admin/") && !path.startsWith("/staff/");
+        }
+        return false; // unknown role
     }
 
 }

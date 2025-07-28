@@ -154,6 +154,9 @@
 				<div class="card-body bg-light text-muted rounded">삭제된 댓글입니다</div>
 			<%} else { %>
 				<div class="card-body d-flex flex-column flex-sm-row position-relative">
+					<%if(tmp.getNum() != tmp.getGroupNum()){ %>
+		            	<i class="bi bi-arrow-return-right position-absolute" style="top:0;left:-30px"></i>
+		            <%} %>
 		      <%-- 댓글 작성자가 로그인된 userName과 같다면 close버튼 출력 --%>
 		      <%if(tmp.getWriter().equals(userName)) { %>
 		      	<button data-num="<%=tmp.getNum() %>" class="btn-close position-absolute top-0 end-0 m-2 mt-3"></button>
