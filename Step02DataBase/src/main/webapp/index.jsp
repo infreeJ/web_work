@@ -26,6 +26,7 @@
 		<ul>
 			<li><a href="${pageContext.request.contextPath}/admin/index.jsp">관리자</a></li>
 			<li><a href="${pageContext.request.contextPath}/staff/index.jsp">스태프</a></li>
+			<li><a href="${pageContext.request.contextPath}/test/file-form.jsp">파일 리스트</a></li>
 		</ul>
 		
 		<div id="carouselExampleIndicators" class="carousel slide">
