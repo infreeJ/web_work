@@ -64,7 +64,7 @@
 </jsp:include>
 <div class="container mt-4">
     <h2><i class="bi bi-image"></i> 새 갤러리 작성</h2>
-    <form action="${pageContext.request.contextPath }/gallery/save" method="post" enctype="multipart/form-data">
+    <form id="saveForm" action="${pageContext.request.contextPath }/gallery/save" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">제목</label>
             <input type="text" class="form-control" id="title" name="title" required>
@@ -189,6 +189,16 @@
             reader.readAsDataURL(file);
         });
     }
+    
+    // 폼에 submit 이벤트가 일어났을 때 실행할 함수 등록
+    document.querySelector("#saveForm").addEventListener("submit", (e) => {
+    	// 만일 선택한 파일이 없다면 폼 전송 막기
+    	if(selectedFiles.length < 1) {
+    		alert("업로드할 이미지를 1개 이상 선택해주세요.");
+    		e.preventDefault();
+    	}
+    })
+    
 </script>
 
 </body>

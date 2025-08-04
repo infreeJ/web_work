@@ -46,6 +46,7 @@
 			<!-- 본문 -->
 			<div class="card-body">
 				<h5 class="card-title"><%=dto.getTitle() %></h5>
+				<!-- textarea로 입력한 글에서 개행기호는 br요소로 변환해서 출력 -->
 				<p class="card-text"><%=dto.getContent().replaceAll("\n", "<br>") %></p>
 				
 				
