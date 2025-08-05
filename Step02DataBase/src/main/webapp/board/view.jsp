@@ -39,6 +39,12 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
+<style>
+	/* 대댓글이 처음에는 보이지 않도록 하기 위해  */
+	.re-re{
+		display:none;
+	}
+</style>
 <body>
 
 	<%-- breadcrumb --%>
@@ -149,11 +155,18 @@
 		<%for(CommentDto tmp : commentList) {%>
 		
 			<!-- 대댓글은 자신의 글번호와 댓글의 그룹번호가 다르다. 그런 경우 왼쪽 마진을 부여한다. -->
-			<div class="card mb-3 <%=tmp.getNum() == tmp.getGroupNum() ? "" : "ms-5" %>">
+			<div class="card mb-3 <%=tmp.getNum() == tmp.getGroupNum() ? "" : "ms-5 re-re" %>">
 			<%if(tmp.getDeleted().equals("yes")) { %>
 				<div class="card-body bg-light text-muted rounded">삭제된 댓글입니다</div>
 			<%} else { %>
 				<div class="card-body d-flex flex-column flex-sm-row position-relative">
+					<%if(tmp.getReplyCount() != 0 && tmp.getNum() == tmp.getGroupNum()){ %>
+		            	<button class="dropdown-btn btn btn-outline-secondary btn-sm position-absolute"
+		            		style="bottom:16px; right:16px;">
+		            		<i class="bi bi-caret-down"></i>
+		            		답글 <%=tmp.getReplyCount() %> 개
+		            	</button>
+		            <%} %>
 					<%if(tmp.getNum() != tmp.getGroupNum()){ %>
 		            	<i class="bi bi-arrow-return-right position-absolute" style="top:0;left:-30px"></i>
 		            <%} %>
@@ -223,7 +236,33 @@
 	
 	<script>
 	const isLogin = <%=isLogin%>
-	console.log(isLogin)
+
+	// 대댓글 보기 버튼을 눌렀을 때 실행할 함수 등록
+	document.querySelectorAll(".dropdown-btn").forEach(item => {
+ 		  item.addEventListener("click", (e) => {
+ 			// click 이벤트가 발생한 그 버튼의 자손요소 중에서 caret up 또는 caret down 요소를 찾는다.
+ 			const caret = item.querySelector(".bi-caret-up, .bi-caret-down");
+ 			if (caret) { // caret 요소가 있다면
+ 			  caret.classList.toggle("bi-caret-down");
+ 			  caret.classList.toggle("bi-caret-up"); // 각 클래스를 토글
+ 			}
+ 			
+ 		    // 버튼의 두 단계 부모 요소로 이동
+ 		    const grandParent = item.parentElement.parentElement;
+
+ 		    // 부모 요소의 다음 형제 요소
+ 		 	let next = grandParent.nextElementSibling;
+	   		while (next) { // 다음 형제요소가 있다면
+	   		  if (next.classList.contains("re-re")) { // re-re 클래스가 부여되어 있다면
+	   		    next.classList.toggle("d-block"); // 클래스 토글
+	   		  } else { // re-re 클래스가 없다면
+	   			  break; // 반복문 탈출
+	   		  }
+	   		  next = next.nextElementSibling; // 그 다음 형제 요소로 이동
+	   		  
+	   		}
+ 		  });
+  	});
 	
 	document.querySelector("#commentContent").addEventListener("focus", () => {
 		// 원글의 댓글 입력란에 포커스가 왔을 때 만일 로그인하지 않았다면

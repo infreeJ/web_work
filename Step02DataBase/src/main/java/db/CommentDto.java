@@ -11,8 +11,15 @@ public class CommentDto {
 	private String createdAt;
 	private String profileImage;
 	
+	// 대댓글의 개수를 저장하기 위한 필드
+	private int replyCount;
 	
-	
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
 	
 	public int getNum() {
 		return num;
