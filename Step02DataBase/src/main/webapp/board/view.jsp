@@ -188,8 +188,8 @@
 		            <div>
 		              <strong><%=tmp.getWriter() %></strong>
 		              <span><%=tmp.getTargetWriter() %></span>
+		            	<small class="ms-1 test-muted"><%=tmp.getCreatedAt() %></small>
 		            </div>
-		            <small class="me-3"><%=tmp.getCreatedAt() %></small>
 		          </div>
 		          <pre><%=tmp.getContent() %></pre>
 		          
