@@ -27,7 +27,7 @@
 				savedUserName = tmp.getValue();
 			}
 			if(key.equals("savedPassword")) {
-				savedUserName = tmp.getValue();
+				savedPassword = tmp.getValue();
 			}
 		}
 	}
