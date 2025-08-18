@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- SQL문이 작성될 공간 -->
+	
+	<!-- 
+		이 xml 문서의 anemspace : member
+		실행할 sql 문의 id : insert
+		parameter로 전달되는 데이터의 type : MemberDto
+		${name} : MemberDto 객체의 getName() 메서드를 호출해서 리턴되는 값을 해당 위치에 바인딩해준다.
+		${addr} : MemberDto 객체의 getAddr() 메서드를 호출해서 리턴되는 값을 해당 위치에 바인딩해준다.
+		따라서 name, addr은 dto 객체의 필드명과 일치시켜야 한다.
+		
+		selectKey를 이용하면 insert 전에 pk값을 미리 얻어내서 MemberDto 객체에 담을 수 있다.
+		keyProperty="num" 여기에서 num과 MemberDto의 필드명과 일치하면 된다.
+	 -->
+	<insert id="insert" parameterType="memberDto">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+			SELECT member_seq.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO member(num, name, addr)
+		VALUES(#{num}, #{name}, #{addr})
+	</insert>
+	
+	<update id="update" parameterType="memberDto">
+		UPDATE member
+		SET name = #{name}, addr = #{addr}
+		WHERE num = #{num}
+	</update>
+	
+	<delete id="deleteByNum" parameterType="int">
+		DELETE FROM member
+		WHERE num = #{num}
+	</delete>
+	
+	<!-- 
+		SELECT 문을 사용할 때는 select된 row를 어떤 type으로 받을지 결정해야한다.
+		num, name, addr이 select된 상황에서
+		resultType을 MemberDto로 설정을 하면
+		select된 row 하나당 MemberDto 객체를 생성해서 setNum(), setName(), setAddr() 메서드를
+		호출하면서 자동으로 데이터를 담아준다.
+		단, SELECT문에 명시한 칼럼명과 dto의 필드명이 일치해야한다.
+	 -->
+	
+	<select id="getByNum" parameterType="int" resultType="memberDto">
+		SELECT num, name, addr
+		FROM member
+		WHERE num = #{num}
+	</select>
+	
+	<select id="selectAll" resultType="memberDto">
+		SELECT *
+		FROM member
+		ORDER BY num
+	</select>
+</mapper>
+
+
+
+
+
+
