@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>member/list.html</title>
+</head>
+<body>
+	<div class="container">
+		<a th:href="@{/}"></a>
+		<h1>회원 목록</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+					<th>자세히보기</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tmp : ${list}">
+					<td th:text="${tmp.num}"></td>
+					<td th:text="${tmp.name}"></td>
+					<td th:text="${tmp.addr}"></td>
+					<td>
+						<a th:href="@{/member/detail(num=${tmp.num}, name=${tmp.name}, addr=${tmp.addr})}">바로가기</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

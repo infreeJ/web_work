@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>include-test.html</title>
+<th:block th:insert="/include/resource"></th:block>
+</head>
+<body>
+	<th:block th:insert="/include/header :: myHeader"></th:block>
+	
+	<div class="container">
+		<h1>include 테스트</h1>
+		<th:block th:insert="/include/navbar :: myNav('home')"></th:block>
+		<th:block th:insert="/include/navbar :: myNav('game')"></th:block>
+		<th:block th:insert="/include/navbar :: myNav('study')"></th:block>
+	</div>
+	
+</body>
+</html>
