@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/home.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>인덱스 페이지 입니다.</h1>
+		<ul>
+			<li><a th:href="@{/member/list}">회원 목록보기</a></li>
+			<li><a th:href="@{/book/list}">책 목록보기</a></li>
+		</ul>
+		<h2>공지사항</h2>
+		<ul th:each="tmp : ${notice}">
+			<li th:text="${tmp}"></li>
+		</ul>
+	</div>
+</body>
+</html>

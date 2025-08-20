@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>views/error.member-exception</title>
+<title>views/error/member-exception</title>
 </head>
 <body>
 	<div class="container">

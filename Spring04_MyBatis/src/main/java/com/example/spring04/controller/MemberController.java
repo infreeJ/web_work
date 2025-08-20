@@ -24,8 +24,9 @@ public class MemberController {
 	private final MemberService service;
 	
 	@PostMapping("/member/update")
-	public String update(MemberDto dto) {
+	public String update(MemberDto dto, Model model) {
 		service.updateMember(dto);
+		model.addAttribute("dto", dto);
 		return "member/update";
 	}
 
@@ -37,9 +38,10 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/delete")
-	public String delete(int num) {
+	public String delete(int num, Model model) {
 		service.deleteMember(num);
-		return "/member/delete";
+		model.addAttribute("num", num);
+		return "member/delete";
 	}
 	
 	
